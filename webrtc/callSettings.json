@@ -1,0 +1,21 @@
+{
+  "callSettings": {
+    "voice": {
+      "microphoneRequired": true,
+      "cameraRequired": false,
+      "muteButton": true,
+      "endCallButton": true,
+      "nextPartnerButton": true
+    },
+    "video": {
+      "microphoneRequired": true,
+      "cameraRequired": true,
+      "muteButton": true,
+      "cameraToggleButton": true,
+      "endCallButton": true,
+      "nextPartnerButton": true,
+      "localPreview": true,
+      "remotePreview": true
+    }
+  }
+}

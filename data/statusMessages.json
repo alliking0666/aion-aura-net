@@ -1,0 +1,17 @@
+{
+  "statusMessages": {
+    "searching": "Searching for random partner...",
+    "partnerFound": "Partner found",
+    "partnerDisconnected": "Partner disconnected",
+    "connectionLost": "Connection lost",
+    "reconnecting": "Reconnecting...",
+    "microphoneDenied": "Microphone access was denied.",
+    "cameraDenied": "Camera access was denied.",
+    "cameraMicrophoneDenied": "Camera or microphone access was denied.",
+    "galleryDenied": "Gallery access was denied.",
+    "mediaTooLarge": "Selected media file is too large.",
+    "unsupportedMedia": "Unsupported media format.",
+    "chatEnded": "Chat ended.",
+    "error": "Something went wrong."
+  }
+}

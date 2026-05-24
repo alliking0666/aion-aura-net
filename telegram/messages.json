@@ -1,0 +1,40 @@
+{
+  "messages": {
+    "ru": {
+      "welcome": "💜 Добро пожаловать в AION AURA NET\n\nАнонимный рандомный чат для текста, голоса и видео.",
+      "choose_language": "🌐 Выберите язык интерфейса:",
+      "choose_gender": "👤 Выберите пол собеседника:",
+      "choose_age": "🎂 Выберите возраст собеседника:",
+      "choose_interests": "💫 Выберите интересы:",
+      "open_app": "🚀 Откройте AION AURA Mini App",
+      "searching": "🔍 Ищем случайного собеседника..."
+    },
+    "en": {
+      "welcome": "💜 Welcome to AION AURA NET\n\nAnonymous random chat for text, voice and video.",
+      "choose_language": "🌐 Choose interface language:",
+      "choose_gender": "👤 Choose partner gender:",
+      "choose_age": "🎂 Choose partner age:",
+      "choose_interests": "💫 Choose interests:",
+      "open_app": "🚀 Open AION AURA Mini App",
+      "searching": "🔍 Searching for a random partner..."
+    },
+    "de": {
+      "welcome": "💜 Willkommen bei AION AURA NET\n\nAnonymer Zufallschat für Text, Stimme und Video.",
+      "choose_language": "🌐 Sprache auswählen:",
+      "choose_gender": "👤 Geschlecht des Partners auswählen:",
+      "choose_age": "🎂 Alter des Partners auswählen:",
+      "choose_interests": "💫 Interessen auswählen:",
+      "open_app": "🚀 AION AURA Mini App öffnen",
+      "searching": "🔍 Suche nach zufälligem Partner..."
+    },
+    "uk": {
+      "welcome": "💜 Ласкаво просимо до AION AURA NET\n\nАнонімний випадковий чат для тексту, голосу та відео.",
+      "choose_language": "🌐 Оберіть мову інтерфейсу:",
+      "choose_gender": "👤 Оберіть стать співрозмовника:",
+      "choose_age": "🎂 Оберіть вік співрозмовника:",
+      "choose_interests": "💫 Оберіть інтереси:",
+      "open_app": "🚀 Відкрити AION AURA Mini App",
+      "searching": "🔍 Шукаємо випадкового співрозмовника..."
+    }
+  }
+}

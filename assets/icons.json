@@ -1,0 +1,22 @@
+{
+  "icons": {
+    "app": "💜",
+    "logo": "🌌",
+    "language": "🌐",
+    "filters": "⚙️",
+    "gender": "👤",
+    "age": "🎂",
+    "interests": "💫",
+    "textChat": "💬",
+    "voiceChat": "🎙️",
+    "videoChat": "🎥",
+    "camera": "📷",
+    "microphone": "🎤",
+    "gallery": "🖼️",
+    "send": "📩",
+    "next": "➡️",
+    "end": "⛔",
+    "report": "🚩",
+    "block": "🚫"
+  }
+}

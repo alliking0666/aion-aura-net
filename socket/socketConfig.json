@@ -1,0 +1,22 @@
+{
+  "socket": {
+    "enabled": true,
+    "server": "render",
+    "reconnect": true,
+    "reconnectAttempts": 10,
+    "timeout": 20000,
+    "events": {
+      "partnerFound": true,
+      "partnerDisconnected": true,
+      "newMessage": true,
+      "typing": true,
+      "voiceSignal": true,
+      "videoSignal": true
+    },
+    "statusMessages": {
+      "searching": "Searching for random partner...",
+      "connected": "Partner connected",
+      "disconnected": "Partner disconnected"
+    }
+  }
+}

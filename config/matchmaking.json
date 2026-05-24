@@ -1,0 +1,25 @@
+{
+  "matchmaking": {
+    "randomSearch": true,
+    "filters": {
+      "language": true,
+      "gender": true,
+      "age": true,
+      "interests": true
+    },
+    "queueSystem": {
+      "enabled": true,
+      "maxSearchTimeSeconds": 120
+    },
+    "connectionModes": [
+      "text",
+      "voice",
+      "video"
+    ],
+    "fallback": {
+      "allowAnyGender": true,
+      "allowAnyLanguage": true,
+      "allowNearbyAge": true
+    }
+  }
+}

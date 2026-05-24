@@ -1,0 +1,36 @@
+{
+  "modes": [
+    {
+      "id": "text",
+      "title": "Text Chat",
+      "emoji": "💬",
+      "features": [
+        "Anonymous messaging",
+        "Photo sharing",
+        "Video sharing",
+        "Typing status"
+      ]
+    },
+    {
+      "id": "voice",
+      "title": "Voice Chat",
+      "emoji": "🎙️",
+      "features": [
+        "Microphone access",
+        "Realtime voice chat",
+        "Mute system"
+      ]
+    },
+    {
+      "id": "video",
+      "title": "Video Chat",
+      "emoji": "🎥",
+      "features": [
+        "Camera access",
+        "Microphone access",
+        "Realtime video",
+        "Fullscreen mode"
+      ]
+    }
+  ]
+}

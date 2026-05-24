@@ -1,0 +1,31 @@
+{
+  "database": {
+    "enabled": false,
+    "plannedProvider": "postgresql",
+    "temporaryMemoryStorage": true,
+    "collections": {
+      "users": {
+        "storePersonalData": false,
+        "storeTelegramId": false,
+        "storeLanguage": true,
+        "storeFilters": true
+      },
+      "sessions": {
+        "temporary": true,
+        "autoDeleteAfterDisconnect": true
+      },
+      "messages": {
+        "storeMessages": false
+      },
+      "calls": {
+        "recordCalls": false,
+        "storeCallHistory": false
+      },
+      "reports": {
+        "enabled": true,
+        "storeReason": true,
+        "storeTimestamp": true
+      }
+    }
+  }
+}

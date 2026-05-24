@@ -1,0 +1,32 @@
+{
+  "commands": [
+    {
+      "command": "/start",
+      "description": "Start AION AURA NET"
+    },
+    {
+      "command": "/search",
+      "description": "Find random partner"
+    },
+    {
+      "command": "/next",
+      "description": "Next random partner"
+    },
+    {
+      "command": "/stop",
+      "description": "Stop current chat"
+    },
+    {
+      "command": "/settings",
+      "description": "Open settings"
+    },
+    {
+      "command": "/language",
+      "description": "Change language"
+    },
+    {
+      "command": "/filters",
+      "description": "Change filters"
+    }
+  ]
+}

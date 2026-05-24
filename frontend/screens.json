@@ -1,0 +1,44 @@
+{
+  "screens": [
+    {
+      "id": "welcome",
+      "title": "Welcome",
+      "description": "First welcome screen"
+    },
+    {
+      "id": "language",
+      "title": "Language Selection",
+      "description": "Choose Russian, English, German or Ukrainian"
+    },
+    {
+      "id": "filters",
+      "title": "Filters",
+      "description": "Choose gender, age and interests"
+    },
+    {
+      "id": "mode_select",
+      "title": "Chat Mode Selection",
+      "description": "Choose text, voice or video roulette"
+    },
+    {
+      "id": "text_chat",
+      "title": "Text Chat",
+      "description": "Anonymous text chat with photo and video sharing"
+    },
+    {
+      "id": "voice_chat",
+      "title": "Voice Chat",
+      "description": "Anonymous voice chat with microphone access"
+    },
+    {
+      "id": "video_chat",
+      "title": "Video Chat",
+      "description": "Anonymous video chat with camera and microphone access"
+    },
+    {
+      "id": "searching",
+      "title": "Searching",
+      "description": "Searching for random partner"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "default": "ru",
+  "languages": [
+    {
+      "code": "ru",
+      "name": "Русский",
+      "flag": "🇷🇺"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "flag": "🇬🇧"
+    },
+    {
+      "code": "de",
+      "name": "Deutsch",
+      "flag": "🇩🇪"
+    },
+    {
+      "code": "uk",
+      "name": "Українська",
+      "flag": "🇺🇦"
+    }
+  ]
+}

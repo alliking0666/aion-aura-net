@@ -1,0 +1,30 @@
+{
+  "navigation": {
+    "startScreen": "welcome",
+    "flow": [
+      "welcome",
+      "language",
+      "filters",
+      "mode_select",
+      "searching",
+      "chat"
+    ],
+    "bottomTabs": [
+      {
+        "id": "home",
+        "title": "Home",
+        "emoji": "🏠"
+      },
+      {
+        "id": "chat",
+        "title": "Chat",
+        "emoji": "💬"
+      },
+      {
+        "id": "settings",
+        "title": "Settings",
+        "emoji": "⚙️"
+      }
+    ]
+  }
+}

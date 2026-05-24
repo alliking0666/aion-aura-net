@@ -1,0 +1,23 @@
+{
+  "theme": {
+    "name": "AION AURA NET",
+    "mode": "dark",
+    "colors": {
+      "background": "#0b0b14",
+      "card": "#151528",
+      "primary": "#ff4fd8",
+      "secondary": "#9b5cff",
+      "accent": "#6ef3ff",
+      "text": "#ffffff",
+      "mutedText": "#b8b8d4",
+      "danger": "#ff4f7a",
+      "success": "#4dffb2"
+    },
+    "style": {
+      "glassmorphism": true,
+      "neonGlow": true,
+      "roundedUI": true,
+      "blur": true
+    }
+  }
+}

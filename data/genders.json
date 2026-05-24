@@ -1,0 +1,24 @@
+{
+  "genders": [
+    {
+      "id": "male",
+      "title": "Male",
+      "emoji": "👨"
+    },
+    {
+      "id": "female",
+      "title": "Female",
+      "emoji": "👩"
+    },
+    {
+      "id": "other",
+      "title": "Other",
+      "emoji": "🌈"
+    },
+    {
+      "id": "any",
+      "title": "Any",
+      "emoji": "🌍"
+    }
+  ]
+}

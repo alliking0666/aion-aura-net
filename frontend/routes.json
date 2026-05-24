@@ -1,0 +1,47 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "screen": "welcome",
+      "public": true
+    },
+    {
+      "path": "/language",
+      "screen": "language",
+      "public": true
+    },
+    {
+      "path": "/filters",
+      "screen": "filters",
+      "public": true
+    },
+    {
+      "path": "/modes",
+      "screen": "mode_select",
+      "public": true
+    },
+    {
+      "path": "/searching",
+      "screen": "searching",
+      "public": true
+    },
+    {
+      "path": "/chat/text",
+      "screen": "text_chat",
+      "requiresSocket": true
+    },
+    {
+      "path": "/chat/voice",
+      "screen": "voice_chat",
+      "requiresSocket": true,
+      "requiresMicrophone": true
+    },
+    {
+      "path": "/chat/video",
+      "screen": "video_chat",
+      "requiresSocket": true,
+      "requiresCamera": true,
+      "requiresMicrophone": true
+    }
+  ]
+}

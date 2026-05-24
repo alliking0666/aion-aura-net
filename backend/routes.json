@@ -1,0 +1,26 @@
+{
+  "routes": {
+    "public": [
+      "/",
+      "/api/welcome",
+      "/api/config",
+      "/api/interests",
+      "/api/filters"
+    ],
+    "socket": [
+      "join_queue",
+      "leave_queue",
+      "partner_found",
+      "send_message",
+      "typing",
+      "webrtc_offer",
+      "webrtc_answer",
+      "webrtc_ice_candidate",
+      "disconnect"
+    ],
+    "moderation": [
+      "/api/report",
+      "/api/block"
+    ]
+  }
+}

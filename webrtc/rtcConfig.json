@@ -1,0 +1,20 @@
+{
+  "rtcConfig": {
+    "connectionType": "peer-to-peer",
+    "audio": true,
+    "video": true,
+    "dataChannel": true,
+    "iceTransportPolicy": "all",
+    "bundlePolicy": "balanced",
+    "rtcpMuxPolicy": "require",
+    "signaling": {
+      "provider": "socket.io",
+      "events": {
+        "offer": "webrtc_offer",
+        "answer": "webrtc_answer",
+        "iceCandidate": "webrtc_ice_candidate",
+        "disconnect": "webrtc_disconnect"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "userProfile": {
+    "anonymousId": null,
+    "language": "ru",
+    "gender": null,
+    "ageGroup": null,
+    "interests": [],
+    "selectedMode": null,
+    "isAdultConfirmed": false,
+    "session": {
+      "active": false,
+      "partnerId": null,
+      "startedAt": null
+    }
+  }
+}

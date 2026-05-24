@@ -1,103 +1,357 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AION AURA NET</title>
-  <link rel="stylesheet" href="./style.css" />
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AION AURA NET</title>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#351052,#09030f);
+  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:18px;
+}
+.card{
+  width:100%;
+  max-width:430px;
+  background:#211533;
+  border-radius:30px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 0 40px #c84dff55;
+}
+.logo{font-size:60px}
+h1{font-size:34px;margin:8px 0 18px}
+.mode,.start,.small{
+  width:100%;
+  border:none;
+  border-radius:18px;
+  padding:16px;
+  margin-top:12px;
+  font-size:18px;
+  font-weight:bold;
+  color:white;
+  background:#4c3d63;
+}
+.mode.active,.start{
+  background:linear-gradient(90deg,#ff4fd8,#8c52ff);
+  box-shadow:0 0 18px #d45cff;
+}
+.status,.connection{margin-top:16px;color:#d8cdea}
+.hidden{display:none}
+video{
+  width:100%;
+  background:#000;
+  border-radius:18px;
+  margin-top:12px;
+}
+.chat{
+  margin-top:14px;
+  background:#12071f;
+  border-radius:16px;
+  padding:12px;
+  min-height:120px;
+  max-height:180px;
+  overflow:auto;
+  text-align:left;
+}
+input{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  margin-top:10px;
+}
+.row{display:flex;gap:8px}
+.row button{flex:1}
+</style>
 </head>
+
 <body>
-  <main class="app">
-    <section class="card">
-      <div class="logo">💜</div>
-      <h1>AION AURA NET</h1>
-      <p id="welcomeText">Loading...</p>
 
-      <div class="modes">
-        <button id="videoBtn" type="button">🎥 Video Roulette</button>
-        <button id="voiceBtn" type="button">🎙 Voice Roulette</button>
-        <button id="textBtn" type="button" class="active">💬 Text Roulette</button>
-      </div>
+<div class="card" id="home">
+  <div class="logo">💜</div>
+  <h1>AION AURA NET</h1>
 
-      <button id="startBtn" type="button" class="start">🚀 Start Random Session</button>
-      <p id="status"></p>
-    </section>
-  </main>
+  <button class="mode active" data-mode="video">🎥 Video Roulette</button>
+  <button class="mode" data-mode="voice">🎙 Voice Roulette</button>
+  <button class="mode" data-mode="text">💬 Text Roulette</button>
 
-  <script>
-    const API_URL = "https://aion-aura-net.onrender.com";
-    let selectedMode = "text";
+  <button class="start" id="startBtn">🚀 Start Random Session</button>
 
-    const welcomeText = document.getElementById("welcomeText");
-    const statusEl = document.getElementById("status");
+  <div class="status" id="status">Choose mode</div>
+  <div class="connection" id="connection">Connecting...</div>
+</div>
 
-    const buttons = {
-      video: document.getElementById("videoBtn"),
-      voice: document.getElementById("voiceBtn"),
-      text: document.getElementById("textBtn")
-    };
+<div class="card hidden" id="session">
+  <h1 id="sessionTitle">Session</h1>
 
-    function setActive(mode) {
-      selectedMode = mode;
+  <video id="localVideo" autoplay muted playsinline></video>
+  <video id="remoteVideo" autoplay playsinline></video>
 
-      Object.values(buttons).forEach((button) => {
-        button.classList.remove("active");
+  <div class="chat" id="chatBox"></div>
+
+  <input id="messageInput" placeholder="Написать сообщение..." />
+
+  <div class="row">
+    <button class="small" id="sendBtn">Send</button>
+    <button class="small" id="mediaBtn">📎 Media</button>
+  </div>
+
+  <input id="mediaInput" type="file" accept="image/*,video/*" class="hidden" />
+
+  <button class="small" id="nextBtn">➡️ Next</button>
+  <button class="small" id="endBtn">❌ End</button>
+
+  <div class="status" id="sessionStatus">Waiting...</div>
+</div>
+
+<script>
+const API_URL = "https://aion-aura-net.onrender.com";
+
+const socket = io(API_URL, {
+  transports: ["websocket", "polling"]
+});
+
+let selectedMode = "video";
+let partnerId = null;
+let localStream = null;
+let peerConnection = null;
+
+const buttons = document.querySelectorAll(".mode");
+const statusEl = document.getElementById("status");
+const connectionEl = document.getElementById("connection");
+
+const home = document.getElementById("home");
+const session = document.getElementById("session");
+const sessionTitle = document.getElementById("sessionTitle");
+const sessionStatus = document.getElementById("sessionStatus");
+
+const localVideo = document.getElementById("localVideo");
+const remoteVideo = document.getElementById("remoteVideo");
+
+const chatBox = document.getElementById("chatBox");
+const messageInput = document.getElementById("messageInput");
+const mediaInput = document.getElementById("mediaInput");
+
+buttons.forEach(btn => {
+  btn.onclick = () => {
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedMode = btn.dataset.mode;
+    statusEl.innerText = "Selected mode: " + selectedMode;
+  };
+});
+
+socket.on("connect", () => {
+  connectionEl.innerText = "🟢 Connected to backend";
+});
+
+socket.on("connect_error", () => {
+  connectionEl.innerText = "⚠️ Backend connection error";
+});
+
+document.getElementById("startBtn").onclick = async () => {
+  statusEl.innerText = "Requesting permissions...";
+
+  await requestPermissions();
+
+  home.classList.add("hidden");
+  session.classList.remove("hidden");
+
+  sessionTitle.innerText =
+    selectedMode === "video" ? "🎥 Video Roulette" :
+    selectedMode === "voice" ? "🎙 Voice Roulette" :
+    "💬 Text Roulette";
+
+  sessionStatus.innerText = "Searching for random partner...";
+
+  socket.emit("join_queue", { mode: selectedMode });
+};
+
+async function requestPermissions() {
+  try {
+    if (selectedMode === "video") {
+      localStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
       });
-
-      buttons[mode].classList.add("active");
-      statusEl.innerText = "Selected mode: " + mode;
+      localVideo.srcObject = localStream;
     }
 
-    buttons.video.addEventListener("click", () => setActive("video"));
-    buttons.voice.addEventListener("click", () => setActive("voice"));
-    buttons.text.addEventListener("click", () => setActive("text"));
-
-    async function loadWelcome() {
-      try {
-        const response = await fetch(API_URL + "/api/welcome");
-        const data = await response.json();
-        welcomeText.innerText = data.message || "Welcome to AION AURA NET";
-      } catch (error) {
-        welcomeText.innerText = "Backend connection error";
-        console.error(error);
-      }
+    if (selectedMode === "voice") {
+      localStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false
+      });
+      localVideo.classList.add("hidden");
+      remoteVideo.classList.add("hidden");
     }
 
-    loadWelcome();
+    if (selectedMode === "text") {
+      localVideo.classList.add("hidden");
+      remoteVideo.classList.add("hidden");
+    }
+  } catch (error) {
+    alert("Разреши доступ к камере/микрофону в браузере.");
+    console.error(error);
+  }
+}
 
-    const socket = io(API_URL, {
-      transports: ["websocket", "polling"]
+socket.on("searching", data => {
+  sessionStatus.innerText = data?.message || "Searching for random partner...";
+});
+
+socket.on("partner_found", async data => {
+  partnerId = data.partnerId;
+  sessionStatus.innerText = "✅ Partner found";
+
+  if (selectedMode === "video" || selectedMode === "voice") {
+    await createPeerConnection();
+
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
+
+    socket.emit("webrtc_offer", {
+      to: partnerId,
+      offer
     });
+  }
+});
 
-    socket.on("connect", () => {
-      statusEl.innerText = "Connected. Choose mode and start.";
+async function createPeerConnection() {
+  peerConnection = new RTCPeerConnection({
+    iceServers: [
+      { urls: "stun:stun.l.google.com:19302" }
+    ]
+  });
+
+  if (localStream) {
+    localStream.getTracks().forEach(track => {
+      peerConnection.addTrack(track, localStream);
     });
+  }
 
-    socket.on("connect_error", (error) => {
-      statusEl.innerText = "Socket connection error";
-      console.error(error);
-    });
+  peerConnection.ontrack = event => {
+    remoteVideo.srcObject = event.streams[0];
+  };
 
-    document.getElementById("startBtn").addEventListener("click", () => {
-      statusEl.innerText = "Searching for random partner...";
-
-      socket.emit("join_queue", {
-        mode: selectedMode
+  peerConnection.onicecandidate = event => {
+    if (event.candidate) {
+      socket.emit("webrtc_ice_candidate", {
+        to: partnerId,
+        candidate: event.candidate
       });
-    });
+    }
+  };
+}
 
-    socket.on("searching", (data) => {
-      statusEl.innerText = data.message || "Searching for random partner...";
-    });
+socket.on("webrtc_offer", async data => {
+  partnerId = data.from;
 
-    socket.on("partner_found", (data) => {
-      statusEl.innerText = "✅ Partner found in " + data.mode + " mode";
-    });
+  await createPeerConnection();
+  await peerConnection.setRemoteDescription(data.offer);
 
-    socket.on("partner_disconnected", () => {
-      statusEl.innerText = "❌ Partner disconnected";
-    });
-  </script>
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
+
+  socket.emit("webrtc_answer", {
+    to: partnerId,
+    answer
+  });
+});
+
+socket.on("webrtc_answer", async data => {
+  if (peerConnection) {
+    await peerConnection.setRemoteDescription(data.answer);
+  }
+});
+
+socket.on("webrtc_ice_candidate", async data => {
+  if (peerConnection && data.candidate) {
+    await peerConnection.addIceCandidate(data.candidate);
+  }
+});
+
+document.getElementById("sendBtn").onclick = () => {
+  const msg = messageInput.value.trim();
+  if (!msg) return;
+
+  addMessage("Me", msg);
+
+  socket.emit("send_message", {
+    to: partnerId,
+    message: msg
+  });
+
+  messageInput.value = "";
+};
+
+socket.on("receive_message", data => {
+  addMessage("Partner", data.message);
+});
+
+function addMessage(sender, text) {
+  const div = document.createElement("div");
+  div.innerHTML = "<b>" + sender + ":</b> " + text;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("mediaBtn").onclick = () => {
+  mediaInput.click();
+};
+
+mediaInput.onchange = () => {
+  const file = mediaInput.files[0];
+  if (!file) return;
+
+  addMessage("Me", "📎 Media selected: " + file.name);
+
+  socket.emit("send_message", {
+    to: partnerId,
+    message: "📎 Media file: " + file.name
+  });
+};
+
+document.getElementById("nextBtn").onclick = () => {
+  cleanupCall();
+  socket.emit("next_partner");
+  socket.emit("join_queue", { mode: selectedMode });
+  sessionStatus.innerText = "Searching next partner...";
+};
+
+document.getElementById("endBtn").onclick = () => {
+  cleanupCall();
+  socket.emit("end_chat");
+  location.reload();
+};
+
+socket.on("partner_disconnected", () => {
+  sessionStatus.innerText = "❌ Partner disconnected";
+  cleanupCall();
+});
+
+function cleanupCall() {
+  if (peerConnection) {
+    peerConnection.close();
+    peerConnection = null;
+  }
+
+  if (remoteVideo.srcObject) {
+    remoteVideo.srcObject.getTracks().forEach(track => track.stop());
+    remoteVideo.srcObject = null;
+  }
+}
+</script>
+
 </body>
 </html>

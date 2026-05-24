@@ -1,0 +1,27 @@
+{
+  "media": {
+    "photoUpload": true,
+    "videoUpload": true,
+    "maxPhotoSizeMB": 15,
+    "maxVideoSizeMB": 100,
+    "allowedPhotoFormats": [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp"
+    ],
+    "allowedVideoFormats": [
+      "mp4",
+      "mov",
+      "webm"
+    ],
+    "voiceMessages": {
+      "enabled": true,
+      "maxDurationSeconds": 120
+    },
+    "temporaryStorage": {
+      "enabled": true,
+      "autoDeleteAfterHours": 24
+    }
+  }
+}

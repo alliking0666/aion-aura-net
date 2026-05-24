@@ -1,0 +1,44 @@
+{
+  "components": [
+    {
+      "id": "language_selector",
+      "name": "Language Selector",
+      "type": "buttons"
+    },
+    {
+      "id": "gender_filter",
+      "name": "Gender Filter",
+      "type": "select"
+    },
+    {
+      "id": "age_filter",
+      "name": "Age Filter",
+      "type": "select"
+    },
+    {
+      "id": "interest_selector",
+      "name": "Interest Selector",
+      "type": "multi_select"
+    },
+    {
+      "id": "mode_card",
+      "name": "Chat Mode Card",
+      "type": "card"
+    },
+    {
+      "id": "search_button",
+      "name": "Start Random Session",
+      "type": "button"
+    },
+    {
+      "id": "chat_input",
+      "name": "Chat Input",
+      "type": "input"
+    },
+    {
+      "id": "media_upload",
+      "name": "Photo / Video Upload",
+      "type": "file_picker"
+    }
+  ]
+}

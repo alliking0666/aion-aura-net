@@ -1,0 +1,25 @@
+{
+  "textChat": {
+    "enabled": true,
+    "messages": {
+      "sendText": true,
+      "receiveText": true,
+      "typingStatus": true,
+      "timestamps": true,
+      "storeMessages": false
+    },
+    "media": {
+      "photoSharing": true,
+      "videoSharing": true,
+      "localPreviewBeforeSend": true,
+      "maxPhotoSizeMB": 15,
+      "maxVideoSizeMB": 100
+    },
+    "actions": {
+      "nextPartner": true,
+      "endChat": true,
+      "reportUser": true,
+      "blockUser": true
+    }
+  }
+}

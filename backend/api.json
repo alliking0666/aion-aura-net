@@ -1,0 +1,34 @@
+{
+  "api": [
+    {
+      "method": "GET",
+      "path": "/",
+      "description": "Health check endpoint. Shows that AION AURA NET server is online."
+    },
+    {
+      "method": "GET",
+      "path": "/api/welcome",
+      "description": "Returns welcome data, app name, supported languages, chat modes and basic settings."
+    },
+    {
+      "method": "GET",
+      "path": "/api/config",
+      "description": "Returns full public app configuration for frontend."
+    },
+    {
+      "method": "GET",
+      "path": "/api/interests",
+      "description": "Returns list of available interests."
+    },
+    {
+      "method": "GET",
+      "path": "/api/filters",
+      "description": "Returns language, gender, age and interest filters."
+    },
+    {
+      "method": "POST",
+      "path": "/api/report",
+      "description": "Receives user reports for moderation."
+    }
+  ]
+}

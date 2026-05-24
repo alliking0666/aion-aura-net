@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "AION AURA NET",
+    "version": "1.0.0",
+    "description": "Anonymous random chat for text, voice and video.",
+    "branding": {
+      "theme": "Soft Neon Aura",
+      "primaryColor": "#9b5cff",
+      "secondaryColor": "#ff4fd8"
+    },
+    "features": {
+      "textChat": true,
+      "voiceChat": true,
+      "videoChat": true,
+      "mediaSharing": true,
+      "telegramMiniApp": true,
+      "anonymousMode": true
+    },
+    "network": {
+      "socketIO": true,
+      "webrtc": true
+    },
+    "backend": {
+      "provider": "render",
+      "status": "planned"
+    }
+  }
+}

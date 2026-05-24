@@ -1,0 +1,20 @@
+{
+  "pwa": {
+    "enabled": true,
+    "appName": "AION AURA NET",
+    "shortName": "AION",
+    "themeColor": "#9b5cff",
+    "backgroundColor": "#0b0b14",
+    "display": "standalone",
+    "orientation": "portrait",
+    "offlineSupport": true,
+    "installPrompt": true,
+    "splashScreen": true,
+    "notifications": {
+      "enabled": true,
+      "newMessage": true,
+      "partnerFound": true,
+      "missedConnection": true
+    }
+  }
+}

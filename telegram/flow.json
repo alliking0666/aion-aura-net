@@ -1,0 +1,39 @@
+{
+  "flow": [
+    {
+      "step": 1,
+      "id": "start",
+      "action": "show_welcome_message"
+    },
+    {
+      "step": 2,
+      "id": "language",
+      "action": "show_language_selection"
+    },
+    {
+      "step": 3,
+      "id": "gender",
+      "action": "show_gender_selection"
+    },
+    {
+      "step": 4,
+      "id": "age",
+      "action": "show_age_selection"
+    },
+    {
+      "step": 5,
+      "id": "interests",
+      "action": "show_interest_selection"
+    },
+    {
+      "step": 6,
+      "id": "open_app",
+      "action": "open_telegram_mini_app"
+    },
+    {
+      "step": 7,
+      "id": "search",
+      "action": "start_random_partner_search"
+    }
+  ]
+}

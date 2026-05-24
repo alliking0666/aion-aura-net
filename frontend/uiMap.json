@@ -1,0 +1,70 @@
+{
+  "uiMap": [
+    {
+      "screen": "welcome",
+      "blocks": [
+        "app_logo",
+        "welcome_title",
+        "welcome_description",
+        "start_button"
+      ]
+    },
+    {
+      "screen": "language",
+      "blocks": [
+        "language_buttons",
+        "continue_button"
+      ]
+    },
+    {
+      "screen": "filters",
+      "blocks": [
+        "gender_selector",
+        "age_selector",
+        "interest_selector",
+        "save_filters_button"
+      ]
+    },
+    {
+      "screen": "mode_select",
+      "blocks": [
+        "text_chat_card",
+        "voice_chat_card",
+        "video_chat_card",
+        "start_random_button"
+      ]
+    },
+    {
+      "screen": "text_chat",
+      "blocks": [
+        "chat_messages",
+        "message_input",
+        "photo_video_picker",
+        "send_button"
+      ]
+    },
+    {
+      "screen": "voice_chat",
+      "blocks": [
+        "voice_status",
+        "microphone_permission_button",
+        "mute_button",
+        "next_partner_button",
+        "end_button"
+      ]
+    },
+    {
+      "screen": "video_chat",
+      "blocks": [
+        "local_video",
+        "remote_video",
+        "camera_permission_button",
+        "microphone_permission_button",
+        "toggle_camera_button",
+        "mute_button",
+        "next_partner_button",
+        "end_button"
+      ]
+    }
+  ]
+}

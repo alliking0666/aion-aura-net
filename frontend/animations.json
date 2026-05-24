@@ -1,0 +1,25 @@
+{
+  "animations": {
+    "screenTransition": {
+      "type": "fade-slide",
+      "durationMs": 350
+    },
+    "buttons": {
+      "hoverGlow": true,
+      "scaleOnClick": true
+    },
+    "cards": {
+      "floatEffect": true,
+      "neonPulse": true
+    },
+    "searching": {
+      "enabled": true,
+      "effect": "rotating-gradient",
+      "text": "Searching for random partner..."
+    },
+    "chat": {
+      "messageAppear": "fade-up",
+      "typingDots": true
+    }
+  }
+}

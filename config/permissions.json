@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "microphone": {
+      "requiredFor": ["voice", "video"],
+      "requestTiming": "after_user_click",
+      "description": "Microphone access is required for voice and video chat."
+    },
+    "camera": {
+      "requiredFor": ["video"],
+      "requestTiming": "after_user_click",
+      "description": "Camera access is required for video chat."
+    },
+    "gallery": {
+      "requiredFor": ["text"],
+      "requestTiming": "after_attachment_button_click",
+      "description": "Gallery/file picker access is used for sending photos and videos in text chat."
+    }
+  }
+}

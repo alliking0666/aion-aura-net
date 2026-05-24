@@ -1,0 +1,31 @@
+{
+  "matchmaking": {
+    "enabled": true,
+    "searchModes": [
+      "text",
+      "voice",
+      "video"
+    ],
+    "filters": {
+      "gender": true,
+      "age": true,
+      "interests": true,
+      "language": true
+    },
+    "queue": {
+      "enabled": true,
+      "maxSearchTimeSeconds": 120,
+      "allowFallbackMatching": true
+    },
+    "partnerActions": {
+      "nextPartner": true,
+      "disconnect": true,
+      "reconnect": false
+    },
+    "statusMessages": {
+      "searching": "Searching for random partner...",
+      "connected": "Partner connected",
+      "disconnected": "Partner disconnected"
+    }
+  }
+}

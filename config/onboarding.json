@@ -1,0 +1,24 @@
+{
+  "welcomeScreens": [
+    {
+      "title": "Welcome to AION AURA NET",
+      "description": "Anonymous random chat platform for voice, video and text communication.",
+      "emoji": "🌌"
+    },
+    {
+      "title": "Meet New People",
+      "description": "Connect instantly with random people worldwide based on interests and filters.",
+      "emoji": "💫"
+    },
+    {
+      "title": "Voice, Video & Text",
+      "description": "Choose your communication style and start chatting instantly.",
+      "emoji": "🎥"
+    },
+    {
+      "title": "Safe & Anonymous",
+      "description": "Stay anonymous while enjoying realtime conversations.",
+      "emoji": "🛡️"
+    }
+  ]
+}

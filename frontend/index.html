@@ -1,357 +1,572 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AION AURA NET</title>
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AION AURA NET</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:radial-gradient(circle at top,#351052,#09030f);
-  color:white;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:18px;
-}
-.card{
-  width:100%;
-  max-width:430px;
-  background:#211533;
-  border-radius:30px;
-  padding:24px;
-  text-align:center;
-  box-shadow:0 0 40px #c84dff55;
-}
-.logo{font-size:60px}
-h1{font-size:34px;margin:8px 0 18px}
-.mode,.start,.small{
-  width:100%;
-  border:none;
-  border-radius:18px;
-  padding:16px;
-  margin-top:12px;
-  font-size:18px;
-  font-weight:bold;
-  color:white;
-  background:#4c3d63;
-}
-.mode.active,.start{
-  background:linear-gradient(90deg,#ff4fd8,#8c52ff);
-  box-shadow:0 0 18px #d45cff;
-}
-.status,.connection{margin-top:16px;color:#d8cdea}
-.hidden{display:none}
-video{
-  width:100%;
-  background:#000;
-  border-radius:18px;
-  margin-top:12px;
-}
-.chat{
-  margin-top:14px;
-  background:#12071f;
-  border-radius:16px;
-  padding:12px;
-  min-height:120px;
-  max-height:180px;
-  overflow:auto;
-  text-align:left;
-}
-input{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  margin-top:10px;
-}
-.row{display:flex;gap:8px}
-.row button{flex:1}
-</style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #39135a, #08030f 70%);
+      color: white;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .screen {
+      height: 100vh;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(33, 21, 51, 0.96);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 0 45px rgba(200, 77, 255, 0.35);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scrollable-content {
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 5px;
+      margin-bottom: 15px;
+    }
+
+    /* Кастомный скроллбар для эстетики с исправленным цветом */
+    .scrollable-content::-webkit-scrollbar { width: 4px; }
+    .scrollable-content::-webkit-scrollbar-thumb { background: rgba(250, 37, 131, 0.3); border-radius: 4px; }
+
+    .hidden { display: none !important; }
+    .logo { font-size: 58px; margin-bottom: 8px; }
+    h1 { font-size: 32px; margin-bottom: 10px; color: #ffffff; }
+    .subtitle { color: #d8cdea; margin-bottom: 18px; line-height: 1.4; }
+    
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #a124db, #fa2583);
+      border: none;
+      border-radius: 16px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.1s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn.secondary { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .btn.danger { background: linear-gradient(135deg, #ff3b30, #ff453a); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .interests-section {
+      text-align: left;
+      margin-top: 15px;
+    }
+    .interests-section h3 {
+      font-size: 14px;
+      color: #ffb8f0;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    .tag {
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .tag.selected {
+      background: rgba(161, 36, 219, 0.4);
+      border-color: #fa2583;
+      box-shadow: 0 0 10px rgba(250, 37, 131, 0.5);
+    }
+
+    #chat-screen { display: flex; flex-direction: column; height: 100vh; padding: 0; justify-content: space-between; }
+    
+    #video-container {
+      display: flex;
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      background: #000;
+      gap: 4px;
+    }
+    video { width: 50%; height: 100%; object-fit: cover; background: #150d22; }
+    #localVideo { transform: scaleX(-1); }
+
+    #chat-window {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(8, 3, 15, 0.6);
+    }
+    .msg { max-width: 75%; padding: 10px 14px; border-radius: 16px; line-height: 1.4; font-size: 15px; }
+    .msg.me { background: #a124db; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg.partner { background: rgba(255, 255, 255, 0.12); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg.status { background: transparent; color: #ffb8f0; align-self: center; text-align: center; font-style: italic; font-size: 13px; }
+
+    #controls {
+      padding: 12px;
+      background: rgba(33, 21, 51, 0.98);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    #message-input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+    .icon-btn { width: 44px; height: 44px; font-size: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; }
+  </style>
 </head>
-
 <body>
 
-<div class="card" id="home">
-  <div class="logo">💜</div>
-  <h1>AION AURA NET</h1>
-
-  <button class="mode active" data-mode="video">🎥 Video Roulette</button>
-  <button class="mode" data-mode="voice">🎙 Voice Roulette</button>
-  <button class="mode" data-mode="text">💬 Text Roulette</button>
-
-  <button class="start" id="startBtn">🚀 Start Random Session</button>
-
-  <div class="status" id="status">Choose mode</div>
-  <div class="connection" id="connection">Connecting...</div>
-</div>
-
-<div class="card hidden" id="session">
-  <h1 id="sessionTitle">Session</h1>
-
-  <video id="localVideo" autoplay muted playsinline></video>
-  <video id="remoteVideo" autoplay playsinline></video>
-
-  <div class="chat" id="chatBox"></div>
-
-  <input id="messageInput" placeholder="Написать сообщение..." />
-
-  <div class="row">
-    <button class="small" id="sendBtn">Send</button>
-    <button class="small" id="mediaBtn">📎 Media</button>
+  <div id="language-screen" class="screen">
+    <div class="card">
+      <div class="logo">🌐</div>
+      <h1>AION AURA</h1>
+      <p class="subtitle">Choose your language / Выберите язык</p>
+      <div class="grid-2">
+        <button class="btn" onclick="selectLanguage('ru')">🇷🇺 Русский</button>
+        <button class="btn" onclick="selectLanguage('uk')">🇺🇦 Українська</button>
+        <button class="btn" onclick="selectLanguage('en')">🇬🇧 English</button>
+        <button class="btn" onclick="selectLanguage('de')">🇩🇪 Deutsch</button>
+      </div>
+    </div>
   </div>
 
-  <input id="mediaInput" type="file" accept="image/*,video/*" class="hidden" />
+  <div id="age-screen" class="screen hidden">
+    <div class="card">
+      <div class="logo">🎂</div>
+      <h1 id="age-title">Укажите возраст</h1>
+      <p class="subtitle" id="age-subtitle">Это поможет точнее подбирать собеседников</p>
+      <div class="grid-2">
+        <button class="btn secondary" onclick="selectAge('18-24')">18-24</button>
+        <button class="btn secondary" onclick="selectAge('25-36')">25-36</button>
+        <button class="btn secondary" onclick="selectAge('37-50')">37-50</button>
+        <button class="btn secondary" onclick="selectAge('50+')">50+</button>
+      </div>
+    </div>
+  </div>
 
-  <button class="small" id="nextBtn">➡️ Next</button>
-  <button class="small" id="endBtn">❌ End</button>
+  <div id="interests-screen" class="screen hidden">
+    <div class="card">
+      <div class="logo">🔮</div>
+      <h1 id="interests-title">Ваши интересы</h1>
+      <p class="subtitle" id="interests-subtitle">Выберите один или несколько (можно пропустить)</p>
+      
+      <div class="scrollable-content">
+        <div class="interests-section">
+          <h3 id="hobby-label">Общие хобби</h3>
+          <div class="tags-container" id="general-tags"></div>
+        </div>
+        <div class="interests-section">
+          <h3 id="adult-label">Категория 18+</h3>
+          <div class="tags-container" id="adult-tags"></div>
+        </div>
+      </div>
 
-  <div class="status" id="sessionStatus">Waiting...</div>
-</div>
+      <button class="btn" id="interests-next-btn" onclick="confirmInterests()">Далее ➡️</button>
+    </div>
+  </div>
 
-<script>
-const API_URL = "https://aion-aura-net.onrender.com";
+  <div id="welcome-screen" class="screen hidden">
+    <div class="card">
+      <div class="logo">💜</div>
+      <h1 id="welcome-title">AION AURA</h1>
+      <p class="subtitle" id="welcome-subtitle">Анонимный видео, аудио и текстовый чат рулетка.</p>
+      
+      <button class="btn" id="btn-video" onclick="startApp('video')">📹 Начать Видеочат</button>
+      <button class="btn secondary" id="btn-voice" onclick="startApp('voice')">🎙️ Только Аудио</button>
+      <button class="btn secondary" id="btn-text" onclick="startApp('text')">💬 Текстовый чат</button>
+    </div>
+  </div>
 
-const socket = io(API_URL, {
-  transports: ["websocket", "polling"]
-});
+  <div id="chat-screen" class="screen hidden">
+    <div id="video-container">
+      <video id="localVideo" autoplay playsinline muted></video>
+      <video id="remoteVideo" autoplay playsinline controls></video>
+    </div>
 
-let selectedMode = "video";
-let partnerId = null;
-let localStream = null;
-let peerConnection = null;
+    <div id="chat-window"></div>
 
-const buttons = document.querySelectorAll(".mode");
-const statusEl = document.getElementById("status");
-const connectionEl = document.getElementById("connection");
+    <div id="controls">
+      <input type="file" id="gallery-input" accept="image/*,video/*" style="display: none;">
+      <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;">
+      
+      <button class="icon-btn" onclick="triggerMedia('gallery')" title="Галерея">🖼️</button>
+      <button class="icon-btn" onclick="triggerMedia('camera')" title="Камера">📸</button>
+      
+      <input type="text" id="message-input" placeholder="Напишите что-нибудь..." onkeypress="handleKeyPress(event)">
+      <button class="icon-btn" style="background: #a124db;" onclick="sendMessage()">🕊️</button>
+      <button class="icon-btn danger" onclick="nextPartner()" title="Следующий">➡️</button>
+    </div>
+  </div>
 
-const home = document.getElementById("home");
-const session = document.getElementById("session");
-const sessionTitle = document.getElementById("sessionTitle");
-const sessionStatus = document.getElementById("sessionStatus");
+  <script>
+    const locales = {
+      ru: {
+        ageTitle: "Укажите возраст", ageSubtitle: "Это поможет точнее подбирать собеседников",
+        interestsTitle: "Ваши интересы", interestsSubtitle: "Выберите несколько (или нажмите Далее)",
+        hobbyLabel: "Общие хобби", adultLabel: "Категория 18+", interestsNext: "Далее ➡️",
+        welcomeTitle: "💜 Добро пожаловать!", welcomeSubtitle: "Анонимный чат для текстового, голосового и видео общения.",
+        btnVideo: "📹 Начать Видеочат", btnVoice: "🎙️ Только Аудио", btnText: "💬 Текстовый чат",
+        placeholder: "Напишите что-нибудь...", connecting: "Подключено к сети. Ищем собеседника...",
+        searching: "Поиск...", found: "Собеседник найден! Соединение...",
+        disconnected: "Собеседник отключился: ", noMedia: "Не удалось получить доступ к камере/микрофону.", fileReady: "Выбран файл: "
+      },
+      uk: {
+        ageTitle: "Вкажіть вік", ageSubtitle: "Це допоможе точніше підбирати співрозмовників",
+        interestsTitle: "Ваші інтереси", interestsSubtitle: "Виберіть кілька (або натисніть Далі)",
+        hobbyLabel: "Загальні хобі", adultLabel: "Категорія 18+", interestsNext: "Далі ➡️",
+        welcomeTitle: "💜 Ласкаво просимо!", welcomeSubtitle: "Анонімний чат для текстового, голосового та відео спілкування.",
+        btnVideo: "📹 Почати Відеочат", btnVoice: "🎙️ Тільки Аудіо", btnText: "💬 Текстовий чат",
+        placeholder: "Напишіть що-небудь...", connecting: "Підключено до мережі. Шукаємо співрозмовника...",
+        searching: "Пошук...", found: "Співрозмовника знайдено! З'єднання...",
+        disconnected: "Співрозмовник відключився: ", noMedia: "Не вдалося отримати доступ до камери/мікрофона.", fileReady: "Вибрано файл: "
+      },
+      en: {
+        ageTitle: "Select your age", ageSubtitle: "This will help us find the best match for you",
+        interestsTitle: "Your Interests", interestsSubtitle: "Select multiple (or click Next)",
+        hobbyLabel: "General Hobbies", adultLabel: "Adult 18+", interestsNext: "Next ➡️",
+        welcomeTitle: "💜 Welcome!", welcomeSubtitle: "Anonymous chat for text, voice and video communication.",
+        btnVideo: "📹 Start Video Chat", btnVoice: "🎙️ Audio Only", btnText: "💬 Text Chat",
+        placeholder: "Type a message...", connecting: "Connected. Searching for a partner...",
+        searching: "Searching...", found: "Partner found! Connecting...",
+        disconnected: "Partner disconnected: ", noMedia: "Could not access camera/microphone.", fileReady: "File selected: "
+      },
+      de: {
+        ageTitle: "Wähle dein Alter", ageSubtitle: "Dies hilft uns, den besten Partner für dich zu finden",
+        interestsTitle: "Deine Interessen", interestsSubtitle: "Wähle mehrere aus (oder klicke Weiter)",
+        hobbyLabel: "Allgemeine Hobbies", adultLabel: "Erwachsene 18+", interestsNext: "Weiter ➡️",
+        welcomeTitle: "💜 Willkommen!", welcomeSubtitle: "Anonymer Chat für Text-, Sprach- und Video-Kommunikation.",
+        btnVideo: "📹 Video-Chat starten", btnVoice: "🎙️ Nur Audio", btnText: "💬 Text-Chat",
+        placeholder: "Schreibe eine Nachricht...", connecting: "Verbunden. Suche nach einem Partner...",
+        searching: "Suche...", found: "Partner gefunden! Verbindung wird hergestellt...",
+        disconnected: "Partner hat die Verbindung getrennt: ", noMedia: "Zugriff auf Kamera/Mikrofon fehlgeschlagen.", fileReady: "Datei ausgewählt: "
+      }
+    };
 
-const localVideo = document.getElementById("localVideo");
-const remoteVideo = document.getElementById("remoteVideo");
+    const interestsData = {
+      general: {
+        ru: ["Аниме", "Книги", "Музыка", "Игры", "Кино", "Спорт", "Программирование", "Блоги", "Путешествия", "Кулинария", "Искусство", "Авто"],
+        uk: ["Аніме", "Книги", "Музика", "Ігри", "Кіно", "Спорт", "Програмування", "Блоги", "Подорожі", "Кулінарія", "Мистецтво", "Авто"],
+        en: ["Anime", "Books", "Music", "Gaming", "Movies", "Sports", "Coding", "Blogging", "Travel", "Cooking", "Art", "Cars"],
+        de: ["Anime", "Bücher", "Musik", "Gaming", "Filme", "Sport", "Coden", "Blogs", "Reisen", "Kochen", "Kunst", "Autos"]
+      },
+      adult: {
+        ru: ["Свинг", "БДСМ", "Романтика", "Пошлые темы", "Флирт", "Вирт", "Фетиш", "Ролевые игры", "Нет табу"],
+        uk: ["Свінг", "БДСМ", "Романтика", "Пошлі теми", "Флірт", "Вірт", "Фетіш", "Рольові ігри", "Без табу"],
+        en: ["Swinger", "BDSM", "Romance", "Dirty Talk", "Flirting", "Virt", "Fetish", "Roleplay", "No Taboo"],
+        de: ["Swinger", "BDSM", "Romantik", "Dirty Talk", "Flirten", "Cybersex", "Fetisch", "Rollenspiele", "Keine Tabus"]
+      }
+    };
 
-const chatBox = document.getElementById("chatBox");
-const messageInput = document.getElementById("messageInput");
-const mediaInput = document.getElementById("mediaInput");
+    const rtcConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
+    let socket, localStream = null, peerConnection = null, currentMode = "video", partnerSocketId = null;
+    
+    let userLanguage = "ru";
+    let userAge = "18-24";
+    let selectedInterests = [];
 
-buttons.forEach(btn => {
-  btn.onclick = () => {
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    selectedMode = btn.dataset.mode;
-    statusEl.innerText = "Selected mode: " + selectedMode;
-  };
-});
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
 
-socket.on("connect", () => {
-  connectionEl.innerText = "🟢 Connected to backend";
-});
+    const languageScreen = document.getElementById("language-screen");
+    const ageScreen = document.getElementById("age-screen");
+    const interestsScreen = document.getElementById("interests-screen");
+    const welcomeScreen = document.getElementById("welcome-screen");
+    const chatScreen = document.getElementById("chat-screen");
+    const chatWindow = document.getElementById("chat-window");
+    const messageInput = document.getElementById("message-input");
+    const videoContainer = document.getElementById("video-container");
 
-socket.on("connect_error", () => {
-  connectionEl.innerText = "⚠️ Backend connection error";
-});
+    function selectLanguage(lang) {
+      userLanguage = lang;
+      
+      document.getElementById("age-title").innerText = locales[lang].ageTitle;
+      document.getElementById("age-subtitle").innerText = locales[lang].ageSubtitle;
+      document.getElementById("interests-title").innerText = locales[lang].interestsTitle;
+      document.getElementById("interests-subtitle").innerText = locales[lang].interestsSubtitle;
+      document.getElementById("hobby-label").innerText = locales[lang].hobbyLabel;
+      document.getElementById("adult-label").innerText = locales[lang].adultLabel;
+      document.getElementById("interests-next-btn").innerText = locales[lang].interestsNext;
+      document.getElementById("welcome-title").innerText = locales[lang].welcomeTitle;
+      document.getElementById("welcome-subtitle").innerText = locales[lang].welcomeSubtitle;
+      document.getElementById("btn-video").innerText = locales[lang].btnVideo;
+      document.getElementById("btn-voice").innerText = locales[lang].btnVoice;
+      document.getElementById("btn-text").innerText = locales[lang].btnText;
+      messageInput.placeholder = locales[lang].placeholder;
 
-document.getElementById("startBtn").onclick = async () => {
-  statusEl.innerText = "Requesting permissions...";
+      renderTags("general-tags", interestsData.general[lang]);
+      renderTags("adult-tags", interestsData.adult[lang]);
 
-  await requestPermissions();
+      languageScreen.classList.add("hidden");
+      ageScreen.classList.remove("hidden");
+    }
 
-  home.classList.add("hidden");
-  session.classList.remove("hidden");
+    function selectAge(age) {
+      userAge = age;
+      ageScreen.classList.add("hidden");
+      interestsScreen.classList.remove("hidden");
+    }
 
-  sessionTitle.innerText =
-    selectedMode === "video" ? "🎥 Video Roulette" :
-    selectedMode === "voice" ? "🎙 Voice Roulette" :
-    "💬 Text Roulette";
-
-  sessionStatus.innerText = "Searching for random partner...";
-
-  socket.emit("join_queue", { mode: selectedMode });
-};
-
-async function requestPermissions() {
-  try {
-    if (selectedMode === "video") {
-      localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
+    function renderTags(containerId, tagsArray) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      tagsArray.forEach(tagText => {
+        const div = document.createElement("div");
+        div.className = "tag";
+        div.innerText = tagText;
+        div.onclick = () => {
+          div.classList.toggle("selected");
+          if (div.classList.contains("selected")) {
+            selectedInterests.push(tagText);
+          } else {
+            selectedInterests = selectedInterests.filter(i => i !== tagText);
+          }
+        };
+        container.appendChild(div);
       });
-      localVideo.srcObject = localStream;
     }
 
-    if (selectedMode === "voice") {
-      localStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: false
+    function confirmInterests() {
+      interestsScreen.classList.add("hidden");
+      welcomeScreen.classList.remove("hidden");
+    }
+
+    async function startApp(mode) {
+      currentMode = mode;
+      welcomeScreen.classList.add("hidden");
+      chatScreen.classList.remove("hidden");
+
+      if (mode === "text") {
+        videoContainer.classList.add("hidden");
+      } else {
+        videoContainer.classList.remove("hidden");
+        await initLocalMedia(mode === "video", true);
+      }
+      initSocket();
+    }
+
+    async function initLocalMedia(videoRequired, audioRequired) {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({
+          video: videoRequired ? { width: 480, height: 360, frameRate: 24 } : false,
+          audio: audioRequired
+        });
+        document.getElementById("localVideo").srcObject = localStream;
+      } catch (err) {
+        console.error(err);
+        appendStatus(locales[userLanguage].noMedia);
+      }
+    }
+
+    function initSocket() {
+      // Правка 2: Переписан эндпоинт сокетов на основной бэкенд
+      socket = io("https://aion-aura-net.onrender.com", {
+        transports: ["websocket", "polling"]
       });
-      localVideo.classList.add("hidden");
-      remoteVideo.classList.add("hidden");
-    }
 
-    if (selectedMode === "text") {
-      localVideo.classList.add("hidden");
-      remoteVideo.classList.add("hidden");
-    }
-  } catch (error) {
-    alert("Разреши доступ к камере/микрофону в браузере.");
-    console.error(error);
-  }
-}
+      socket.on("connect", () => {
+        appendStatus(locales[userLanguage].connecting);
+        
+        socket.emit("join_queue", { 
+          mode: currentMode,
+          filters: {
+            language: userLanguage,
+            age: userAge,
+            interests: selectedInterests
+          }
+        });
+      });
 
-socket.on("searching", data => {
-  sessionStatus.innerText = data?.message || "Searching for random partner...";
-});
+      socket.on("searching", (data) => {
+        appendStatus(data.message || locales[userLanguage].searching);
+      });
 
-socket.on("partner_found", async data => {
-  partnerId = data.partnerId;
-  sessionStatus.innerText = "✅ Partner found";
+      // Правка 5: Логика асимметричного создания офферов (Glare protection)
+      socket.on("partner_found", async (data) => {
+        partnerSocketId = data.partnerId;
+        appendStatus(locales[userLanguage].found);
+        
+        if (currentMode !== "text" && localStream) {
+          await createPeerConnection();
+          const shouldCreateOffer = socket.id < partnerSocketId;
+          if (shouldCreateOffer) {
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            socket.emit("webrtc_offer", { to: partnerSocketId, offer });
+          }
+        }
+      });
 
-  if (selectedMode === "video" || selectedMode === "voice") {
-    await createPeerConnection();
+      socket.on("webrtc_offer", async (data) => {
+        await createPeerConnection();
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+        socket.emit("webrtc_answer", { to: data.from, answer });
+      });
 
-    const offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
+      socket.on("webrtc_answer", async (data) => {
+        if (peerConnection) {
+          await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        }
+      });
 
-    socket.emit("webrtc_offer", {
-      to: partnerId,
-      offer
-    });
-  }
-});
+      socket.on("webrtc_ice_candidate", async (data) => {
+        if (peerConnection) {
+          try {
+            // Правка 3: Исправлена опечатка в имени класса RTCIceCandidate
+            await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+          } catch(e) {}
+        }
+      });
 
-async function createPeerConnection() {
-  peerConnection = new RTCPeerConnection({
-    iceServers: [
-      { urls: "stun:stun.l.google.com:19302" }
-    ]
-  });
+      socket.on("receive_message", (data) => {
+        appendMessage(data.message, "partner");
+      });
 
-  if (localStream) {
-    localStream.getTracks().forEach(track => {
-      peerConnection.addTrack(track, localStream);
-    });
-  }
-
-  peerConnection.ontrack = event => {
-    remoteVideo.srcObject = event.streams[0];
-  };
-
-  peerConnection.onicecandidate = event => {
-    if (event.candidate) {
-      socket.emit("webrtc_ice_candidate", {
-        to: partnerId,
-        candidate: event.candidate
+      socket.on("partner_disconnected", (data) => {
+        appendStatus(`${locales[userLanguage].disconnected}${data.reason}`);
+        closePeerConnection();
       });
     }
-  };
-}
 
-socket.on("webrtc_offer", async data => {
-  partnerId = data.from;
+    async function createPeerConnection() {
+      if (peerConnection) return;
+      peerConnection = new RTCPeerConnection(rtcConfig);
 
-  await createPeerConnection();
-  await peerConnection.setRemoteDescription(data.offer);
+      if (localStream) {
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+      }
 
-  const answer = await peerConnection.createAnswer();
-  await peerConnection.setLocalDescription(answer);
+      peerConnection.ontrack = (event) => {
+        const remoteVideo = document.getElementById("remoteVideo");
+        if (remoteVideo && event.streams[0]) {
+          remoteVideo.srcObject = event.streams[0];
+        }
+      };
 
-  socket.emit("webrtc_answer", {
-    to: partnerId,
-    answer
-  });
-});
+      peerConnection.onicecandidate = (event) => {
+        if (event.candidate && partnerSocketId) {
+          socket.emit("webrtc_ice_candidate", {
+            to: partnerSocketId,
+            candidate: event.candidate
+          });
+        }
+      };
+    }
 
-socket.on("webrtc_answer", async data => {
-  if (peerConnection) {
-    await peerConnection.setRemoteDescription(data.answer);
-  }
-});
+    function closePeerConnection() {
+      if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+      }
+      const remoteVideo = document.getElementById("remoteVideo");
+      if (remoteVideo) remoteVideo.srcObject = null;
+      partnerSocketId = null;
+    }
 
-socket.on("webrtc_ice_candidate", async data => {
-  if (peerConnection && data.candidate) {
-    await peerConnection.addIceCandidate(data.candidate);
-  }
-});
+    function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text) return;
 
-document.getElementById("sendBtn").onclick = () => {
-  const msg = messageInput.value.trim();
-  if (!msg) return;
+      socket.emit("send_message", { message: text, to: partnerSocketId });
+      appendMessage(text, "me");
+      messageInput.value = "";
+    }
 
-  addMessage("Me", msg);
+    function handleKeyPress(e) {
+      if (e.key === "Enter") sendMessage();
+    }
 
-  socket.emit("send_message", {
-    to: partnerId,
-    message: msg
-  });
+    function nextPartner() {
+      closePeerConnection();
+      chatWindow.innerHTML = "";
+      socket.emit("next_partner");
+      socket.emit("join_queue", { 
+        mode: currentMode,
+        filters: { language: userLanguage, age: userAge, interests: selectedInterests }
+      });
+    }
 
-  messageInput.value = "";
-};
+    function triggerMedia(type) {
+      document.getElementById(`${type}-input`).click();
+    }
 
-socket.on("receive_message", data => {
-  addMessage("Partner", data.message);
-});
+    document.getElementById("gallery-input").addEventListener("change", handleFile);
+    document.getElementById("camera-input").addEventListener("change", handleFile);
 
-function addMessage(sender, text) {
-  const div = document.createElement("div");
-  div.innerHTML = "<b>" + sender + ":</b> " + text;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+    function handleFile(e) {
+      const file = e.target.files[0];
+      if (file) {
+        appendStatus(`${locales[userLanguage].fileReady}${file.name}`);
+      }
+    }
 
-document.getElementById("mediaBtn").onclick = () => {
-  mediaInput.click();
-};
+    function appendMessage(text, sender) {
+      const div = document.createElement("div");
+      div.className = `msg ${sender}`;
+      div.innerText = text;
+      chatWindow.appendChild(div);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
 
-mediaInput.onchange = () => {
-  const file = mediaInput.files[0];
-  if (!file) return;
-
-  addMessage("Me", "📎 Media selected: " + file.name);
-
-  socket.emit("send_message", {
-    to: partnerId,
-    message: "📎 Media file: " + file.name
-  });
-};
-
-document.getElementById("nextBtn").onclick = () => {
-  cleanupCall();
-  socket.emit("next_partner");
-  socket.emit("join_queue", { mode: selectedMode });
-  sessionStatus.innerText = "Searching next partner...";
-};
-
-document.getElementById("endBtn").onclick = () => {
-  cleanupCall();
-  socket.emit("end_chat");
-  location.reload();
-};
-
-socket.on("partner_disconnected", () => {
-  sessionStatus.innerText = "❌ Partner disconnected";
-  cleanupCall();
-});
-
-function cleanupCall() {
-  if (peerConnection) {
-    peerConnection.close();
-    peerConnection = null;
-  }
-
-  if (remoteVideo.srcObject) {
-    remoteVideo.srcObject.getTracks().forEach(track => track.stop());
-    remoteVideo.srcObject = null;
-  }
-}
-</script>
-
+    function appendStatus(text) {
+      const div = document.createElement("div");
+      div.className = "msg status";
+      div.innerText = text;
+      chatWindow.appendChild(div);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+  </script>
 </body>
 </html>

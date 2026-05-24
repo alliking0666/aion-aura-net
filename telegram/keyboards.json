@@ -1,0 +1,26 @@
+{
+  "keyboards": {
+    "language": [
+      ["🇷🇺 Русский", "🇬🇧 English"],
+      ["🇩🇪 Deutsch", "🇺🇦 Українська"]
+    ],
+    "gender": [
+      ["👨 Male", "👩 Female"],
+      ["👫 Couple", "🌍 Any"]
+    ],
+    "age": [
+      ["18-24", "25-34"],
+      ["35-44", "45-60"],
+      ["60+"]
+    ],
+    "modes": [
+      ["💬 Text Chat"],
+      ["🎙 Voice Chat"],
+      ["🎥 Video Chat"]
+    ],
+    "main": [
+      ["🚀 Open AION AURA"],
+      ["⚙️ Filters", "🌐 Language"]
+    ]
+  }
+}

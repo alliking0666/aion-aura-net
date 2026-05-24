@@ -1,0 +1,27 @@
+{
+  "environment": {
+    "mode": "development",
+    "deployment": {
+      "provider": "render",
+      "autoDeploy": true,
+      "source": "github"
+    },
+    "services": {
+      "backend": {
+        "enabled": true,
+        "port": 3000
+      },
+      "socket": {
+        "enabled": true
+      },
+      "telegramBot": {
+        "enabled": true
+      }
+    },
+    "variables": {
+      "NODE_ENV": "development",
+      "PORT": 3000,
+      "TELEGRAM_BOT_TOKEN": "process.env.TELEGRAM_BOT_TOKEN"
+    }
+  }
+}

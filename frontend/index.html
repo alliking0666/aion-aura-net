@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AION AURA NET</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="card">
+      <div class="logo">💜</div>
+      <h1>AION AURA NET</h1>
+      <p id="welcomeText">Загрузка...</p>
+
+      <div class="modes">
+        <button data-mode="text">💬 Text Chat</button>
+        <button data-mode="voice">🎙 Voice Chat</button>
+        <button data-mode="video">🎥 Video Chat</button>
+      </div>
+
+      <button id="startBtn" class="start">Start Random Session</button>
+
+      <p id="status"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

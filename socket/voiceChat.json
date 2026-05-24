@@ -1,0 +1,22 @@
+{
+  "voiceChat": {
+    "enabled": true,
+    "microphoneRequired": true,
+    "features": {
+      "muteMicrophone": true,
+      "nextPartner": true,
+      "endCall": true,
+      "reportUser": true,
+      "blockUser": true
+    },
+    "audio": {
+      "echoCancellation": true,
+      "noiseSuppression": true,
+      "autoGainControl": true
+    },
+    "connection": {
+      "autoReconnect": false,
+      "showConnectionStatus": true
+    }
+  }
+}

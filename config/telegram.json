@@ -1,0 +1,19 @@
+{
+  "telegram": {
+    "botName": "AION AURA NET",
+    "botUsername": "aion_aura_net_bot",
+    "startCommand": "/start",
+    "miniApp": {
+      "enabled": true,
+      "buttonText": "Open AION AURA",
+      "fullscreen": true
+    },
+    "startFlow": {
+      "languageSelection": true,
+      "genderSelection": true,
+      "ageSelection": true,
+      "interestSelection": true
+    },
+    "languages": ["ru", "en", "de", "uk"]
+  }
+}

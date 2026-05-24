@@ -1,0 +1,24 @@
+{
+  "privacy": {
+    "anonymousChat": true,
+    "storeMessages": false,
+    "storeMedia": false,
+    "recordCalls": false,
+    "trackLocation": false,
+    "shareUserData": false,
+    "temporarySessions": true,
+    "autoDelete": {
+      "enabled": true,
+      "afterDisconnect": true
+    },
+    "permissions": {
+      "camera": "Only used during video chat",
+      "microphone": "Only used during voice/video chat",
+      "gallery": "Only used for sending media in text chat"
+    },
+    "security": {
+      "encryptedTransport": true,
+      "futureEndToEndEncryption": true
+    }
+  }
+}

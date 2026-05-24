@@ -1,0 +1,26 @@
+{
+  "features": {
+    "textChat": true,
+    "voiceChat": true,
+    "videoChat": true,
+    "mediaSharing": true,
+    "voiceMessages": true,
+    "typingStatus": true,
+    "partnerSearch": true,
+    "genderFilters": true,
+    "ageFilters": true,
+    "interestFilters": true,
+    "languageFilters": true,
+    "telegramMiniApp": true,
+    "notifications": true,
+    "sounds": true,
+    "animations": true,
+    "anonymousMode": true,
+    "reportSystem": true,
+    "blockSystem": true,
+    "adultContent18Plus": true,
+    "temporarySessions": true,
+    "webrtc": true,
+    "socketIO": true
+  }
+}

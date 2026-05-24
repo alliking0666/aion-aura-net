@@ -1,0 +1,25 @@
+{
+  "sounds": {
+    "enabled": true,
+    "ui": {
+      "buttonClick": true,
+      "screenTransition": true
+    },
+    "chat": {
+      "newMessage": true,
+      "partnerFound": true,
+      "partnerDisconnected": true,
+      "typing": false
+    },
+    "calls": {
+      "incomingConnection": true,
+      "callEnd": true,
+      "muteToggle": true
+    },
+    "volume": {
+      "default": 0.7,
+      "notifications": 0.8,
+      "background": 0.3
+    }
+  }
+}

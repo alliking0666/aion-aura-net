@@ -17,7 +17,11 @@ const WEB_APP_URL = process.env.WEB_APP_URL || "https://aion-aura-net.onrender.c
 
 app.use(cors({ origin: "*" }));
 app.use(helmet());
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "10mb" }));app.use("/app", express.static(path.join(__dirname, "frontend")));
+
+app.get("/app", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+});
 
 function loadJson(relativePath, fallback = {}) {
   try {

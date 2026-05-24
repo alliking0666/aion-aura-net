@@ -1,0 +1,26 @@
+{
+  "theme": {
+    "name": "Soft Neon Aura",
+    "description": "Cute, soft and futuristic neon interface for AION AURA NET.",
+    "colors": {
+      "background": "#080812",
+      "backgroundGradient": "linear-gradient(135deg, #080812 0%, #1a0f2e 45%, #2a0f3f 100%)",
+      "primary": "#ff4fd8",
+      "secondary": "#9b5cff",
+      "accent": "#d98cff",
+      "blueAccent": "#6ef3ff",
+      "card": "rgba(255, 255, 255, 0.08)",
+      "cardBorder": "rgba(255, 255, 255, 0.18)",
+      "text": "#ffffff",
+      "mutedText": "#c9c2df"
+    },
+    "ui": {
+      "glassmorphism": true,
+      "neonGlow": true,
+      "roundedCorners": "24px",
+      "buttonRadius": "18px",
+      "blur": "18px",
+      "animation": "smooth"
+    }
+  }
+}

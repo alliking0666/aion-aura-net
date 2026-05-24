@@ -1,0 +1,35 @@
+{
+  "moderation": {
+    "enabled": true,
+    "minimumAge": 18,
+    "reportSystem": {
+      "enabled": true,
+      "reasons": [
+        "Spam",
+        "Harassment",
+        "Fake Profile",
+        "Nudity",
+        "Violence",
+        "Illegal Content",
+        "Other"
+      ]
+    },
+    "blockSystem": {
+      "enabled": true,
+      "temporaryBlock": true
+    },
+    "antiSpam": {
+      "enabled": true,
+      "maxMessagesPerMinute": 40,
+      "autoMuteFlood": true
+    },
+    "adultContent": {
+      "allowed": true,
+      "require18PlusConfirmation": true
+    },
+    "autoDisconnect": {
+      "enabled": true,
+      "onViolation": true
+    }
+  }
+}

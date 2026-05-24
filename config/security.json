@@ -1,0 +1,19 @@
+{
+  "security": {
+    "anonymousMode": true,
+    "storeMessages": false,
+    "storeCalls": false,
+    "endToEndEncryptionPlanned": true,
+    "reportSystem": true,
+    "blockSystem": true,
+    "autoDisconnectOnViolation": true,
+    "nsfwAllowed": true,
+    "adultContent18PlusOnly": true,
+    "minimumAge": 18,
+    "moderation": {
+      "spamProtection": true,
+      "floodProtection": true,
+      "fakeCameraDetectionPlanned": true
+    }
+  }
+}

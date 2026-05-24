@@ -1,0 +1,26 @@
+{
+  "animations": {
+    "loading": {
+      "enabled": true,
+      "style": "neon-spinner",
+      "durationMs": 1200
+    },
+    "searching": {
+      "enabled": true,
+      "effect": "pulse-gradient",
+      "textAnimation": true
+    },
+    "cards": {
+      "floating": true,
+      "hoverGlow": true
+    },
+    "buttons": {
+      "scaleOnTap": true,
+      "neonPulse": true
+    },
+    "chat": {
+      "typingDots": true,
+      "messageFade": true
+    }
+  }
+}

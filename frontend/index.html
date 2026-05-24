@@ -3,140 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>AION AURA NET</title>
-
   <link rel="stylesheet" href="./style.css" />
-
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 </head>
 <body>
+  <main class="app">
+    <section class="card">
+      <div class="logo">💜</div>
+      <h1>AION AURA NET</h1>
+      <p id="welcomeText">Loading...</p>
 
-<div class="app">
-  <div class="card">
+      <div class="modes">
+        <button id="videoBtn" type="button">🎥 Video Roulette</button>
+        <button id="voiceBtn" type="button">🎙 Voice Roulette</button>
+        <button id="textBtn" type="button" class="active">💬 Text Roulette</button>
+      </div>
 
-    <div class="logo">💜</div>
+      <button id="startBtn" type="button" class="start">🚀 Start Random Session</button>
+      <p id="status"></p>
+    </section>
+  </main>
 
-    <h1>AION AURA NET</h1>
+  <script>
+    const API_URL = "https://aion-aura-net.onrender.com";
+    let selectedMode = "text";
 
-    <p id="welcomeText">
-      Loading...
-    </p>
+    const welcomeText = document.getElementById("welcomeText");
+    const statusEl = document.getElementById("status");
 
-    <div class="modes">
+    const buttons = {
+      video: document.getElementById("videoBtn"),
+      voice: document.getElementById("voiceBtn"),
+      text: document.getElementById("textBtn")
+    };
 
-      <button id="videoBtn">
-        🎥 Video Roulette
-      </button>
+    function setActive(mode) {
+      selectedMode = mode;
 
-      <button id="voiceBtn">
-        🎙 Voice Roulette
-      </button>
+      Object.values(buttons).forEach((button) => {
+        button.classList.remove("active");
+      });
 
-      <button id="textBtn" class="active">
-        💬 Text Roulette
-      </button>
+      buttons[mode].classList.add("active");
+      statusEl.innerText = "Selected mode: " + mode;
+    }
 
-    </div>
+    buttons.video.addEventListener("click", () => setActive("video"));
+    buttons.voice.addEventListener("click", () => setActive("voice"));
+    buttons.text.addEventListener("click", () => setActive("text"));
 
-    <button class="start" id="startBtn">
-      🚀 Start Random Session
-    </button>
+    async function loadWelcome() {
+      try {
+        const response = await fetch(API_URL + "/api/welcome");
+        const data = await response.json();
+        welcomeText.innerText = data.message || "Welcome to AION AURA NET";
+      } catch (error) {
+        welcomeText.innerText = "Backend connection error";
+        console.error(error);
+      }
+    }
 
-    <p id="status"></p>
+    loadWelcome();
 
-  </div>
-</div>
+    const socket = io(API_URL, {
+      transports: ["websocket", "polling"]
+    });
 
-<script>
+    socket.on("connect", () => {
+      statusEl.innerText = "Connected. Choose mode and start.";
+    });
 
-const API_URL = "https://aion-aura-net.onrender.com";
+    socket.on("connect_error", (error) => {
+      statusEl.innerText = "Socket connection error";
+      console.error(error);
+    });
 
-let selectedMode = "text";
+    document.getElementById("startBtn").addEventListener("click", () => {
+      statusEl.innerText = "Searching for random partner...";
 
-const statusEl = document.getElementById("status");
+      socket.emit("join_queue", {
+        mode: selectedMode
+      });
+    });
 
-const welcomeText = document.getElementById("welcomeText");
+    socket.on("searching", (data) => {
+      statusEl.innerText = data.message || "Searching for random partner...";
+    });
 
-const buttons = {
-  video: document.getElementById("videoBtn"),
-  voice: document.getElementById("voiceBtn"),
-  text: document.getElementById("textBtn")
-};
+    socket.on("partner_found", (data) => {
+      statusEl.innerText = "✅ Partner found in " + data.mode + " mode";
+    });
 
-function setActive(mode) {
-
-  selectedMode = mode;
-
-  Object.values(buttons).forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  buttons[mode].classList.add("active");
-}
-
-buttons.video.onclick = () => setActive("video");
-
-buttons.voice.onclick = () => setActive("voice");
-
-buttons.text.onclick = () => setActive("text");
-
-async function loadWelcome() {
-
-  try {
-
-    const response = await fetch(
-      API_URL + "/api/welcome"
-    );
-
-    const data = await response.json();
-
-    welcomeText.innerText = data.message;
-
-  } catch (error) {
-
-    welcomeText.innerText =
-      "Failed to load welcome data";
-
-    console.error(error);
-  }
-}
-
-loadWelcome();
-
-const socket = io(API_URL);
-
-document.getElementById("startBtn")
-.onclick = () => {
-
-  statusEl.innerText =
-    "Searching for random partner…";
-
-  socket.emit("join_queue", {
-    mode: selectedMode
-  });
-};
-
-socket.on("searching", (data) => {
-
-  statusEl.innerText = data.message;
-});
-
-socket.on("partner_found", (data) => {
-
-  statusEl.innerText =
-    "✅ Partner found in " +
-    data.mode +
-    " mode";
-});
-
-socket.on("partner_disconnected", () => {
-
-  statusEl.innerText =
-    "❌ Partner disconnected";
-});
-
-</script>
-
+    socket.on("partner_disconnected", () => {
+      statusEl.innerText = "❌ Partner disconnected";
+    });
+  </script>
 </body>
 </html>

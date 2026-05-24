@@ -1,0 +1,25 @@
+{
+  "webrtc": {
+    "enabled": true,
+    "voiceChat": true,
+    "videoChat": true,
+    "permissions": {
+      "camera": true,
+      "microphone": true
+    },
+    "iceServers": [
+      {
+        "urls": "stun:stun.l.google.com:19302"
+      },
+      {
+        "urls": "stun:stun1.l.google.com:19302"
+      }
+    ],
+    "features": {
+      "muteMicrophone": true,
+      "toggleCamera": true,
+      "endCall": true,
+      "nextPartner": true
+    }
+  }
+}

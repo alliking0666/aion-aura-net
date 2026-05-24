@@ -1,0 +1,26 @@
+{
+  "events": {
+    "clientToServer": [
+      "join_queue",
+      "leave_queue",
+      "send_message",
+      "typing",
+      "webrtc_offer",
+      "webrtc_answer",
+      "webrtc_ice_candidate",
+      "next_partner",
+      "end_chat"
+    ],
+    "serverToClient": [
+      "searching",
+      "partner_found",
+      "partner_disconnected",
+      "receive_message",
+      "typing_status",
+      "webrtc_offer",
+      "webrtc_answer",
+      "webrtc_ice_candidate",
+      "error_message"
+    ]
+  }
+}

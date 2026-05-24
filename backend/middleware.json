@@ -1,0 +1,28 @@
+{
+  "middleware": {
+    "cors": {
+      "enabled": true,
+      "origin": "*"
+    },
+    "jsonParser": {
+      "enabled": true,
+      "limit": "10mb"
+    },
+    "rateLimit": {
+      "enabled": true,
+      "windowMs": 60000,
+      "maxRequests": 120
+    },
+    "securityHeaders": {
+      "enabled": true
+    },
+    "logging": {
+      "enabled": true,
+      "level": "minimal"
+    },
+    "antiSpam": {
+      "enabled": true,
+      "maxMessagesPerMinute": 40
+    }
+  }
+}
